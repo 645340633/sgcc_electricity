@@ -37,6 +37,7 @@ def main():
     fetcher = DataFetcher(PHONE_NUMBER, PASSWORD)
     updator = SensorUpdator(HASS_URL, HASS_TOKEN)
     logging.info(f"当前登录的用户名为: {PHONE_NUMBER}，homeassistant地址为{HASS_URL},程序将在每天{JOB_START_TIME}执行")
+    schedule.every(1).hours.do(run_task, fetcher, updator)
     schedule.every().day.at(JOB_START_TIME).do(run_task, fetcher, updator)
 
     if datetime.now().time() < datetime.strptime(JOB_START_TIME, "%H:%M").time():
